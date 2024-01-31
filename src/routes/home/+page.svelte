@@ -31,7 +31,7 @@
 
 		let loader = new GLTFLoader();
 
-		loader.load('src/lib/models/viensla_logo.glb', (gltf) => {
+		loader.load('models/viensla_logo.glb', (gltf) => {
 			gltf.scene.rotation.x = Math.PI / 2;
 			scene.add(gltf.scene);
 		});
