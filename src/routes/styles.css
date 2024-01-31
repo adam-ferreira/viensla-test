@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700;800&display=swap');
+
+:root {
+    --font-body: 'Rubik', sans-serif;
+    --color-theme-1: rgb(251, 239, 224);
+    --color-theme-2: rgb(5, 10, 24);
+    --color-theme-3: rgb(57, 53, 50);
+    --color-theme-4: #5f45f2;
+    --wheat: 246, 220, 194;
+    --gradient: linear-gradient(180deg, rgba(var(--wheat), 0) 50%, rgba(var(--wheat), 1) 100%);
+    font-family: var(--font-body);
+    color: var(--color-theme-0);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-theme-1);
+}
