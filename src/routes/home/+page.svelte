@@ -4,10 +4,9 @@
 	import * as THREE from 'three';
 	import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 	import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-
 	let container;
 
-	onMount(async () => {
+	onMount(() => {
 		const scene = new THREE.Scene();
 		const camera = new THREE.PerspectiveCamera(
 			75,
@@ -15,26 +14,38 @@
 			0.1,
 			1000
 		);
-		const renderer = new THREE.WebGLRenderer({ alpha: true });
+		const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 		const controls = new OrbitControls(camera, renderer.domElement);
 
-		container.appendChild(renderer.domElement);
 		renderer.setSize(container.clientWidth, container.clientHeight);
-		camera.position.z = 0.18;
+		container.appendChild(renderer.domElement);
+		camera.position.z = 0.2;
 
-		let light = new THREE.PointLight(0xffffff, 100, 100);
-		light.position.set(2, 2, 0.5);
-		scene.add(light);
-
-		let lightHelper = new THREE.PointLightHelper(light);
-		scene.add(lightHelper);
+		let cubeTexture;
+		new THREE.CubeTextureLoader()
+			.setPath('cubeMaps/')
+			.load(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png'], function (texture) {
+				cubeTexture = texture;
+				scene.environment = texture;
+			});
 
 		let loader = new GLTFLoader();
 
 		loader.load('models/viensla_logo.glb', (gltf) => {
 			gltf.scene.rotation.x = Math.PI / 2;
+			gltf.scene.traverse((node) => {
+				if (node.isMesh) {
+					node.material = new THREE.MeshStandardMaterial({
+						roughness: 0.001,
+						color: 0x5f45f2
+					});
+				}
+			});
 			scene.add(gltf.scene);
 		});
+
+		const ambientLight = new THREE.AmbientLight(0xffffff, 5); // soft white light
+		scene.add(ambientLight);
 
 		const animate = () => {
 			requestAnimationFrame(animate);
@@ -43,12 +54,6 @@
 		};
 
 		animate();
-
-		window.addEventListener('resize', () => {
-			camera.aspect = container.clientWidth / container.clientHeight;
-			camera.updateProjectionMatrix();
-			renderer.setSize(container.clientWidth, container.clientHeight);
-		});
 	});
 </script>
 
