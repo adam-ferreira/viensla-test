@@ -4,6 +4,8 @@
 	import * as THREE from 'three';
 	import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 	import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+	import { gsap } from 'gsap';
+
 	let container;
 
 	onMount(() => {
@@ -33,15 +35,23 @@
 
 		loader.load('models/viensla_logo.glb', (gltf) => {
 			gltf.scene.rotation.x = Math.PI / 2;
+			gltf.scene.position.y = 2; // Start position off the top of the screen
 			gltf.scene.traverse((node) => {
 				if (node.isMesh) {
 					node.material = new THREE.MeshStandardMaterial({
-						roughness: 0.001,
+						roughness: 0.1,
 						color: 0x5f45f2
 					});
 				}
 			});
 			scene.add(gltf.scene);
+
+			// Start the bounce animation after the model is loaded
+			gsap.to(gltf.scene.position, {
+				y: 0, // The end position
+				duration: 3, // The duration of the animation
+				ease: 'bounce.out' // Use the 'bounce' easing function
+			});
 		});
 
 		const ambientLight = new THREE.AmbientLight(0xffffff, 5); // soft white light
