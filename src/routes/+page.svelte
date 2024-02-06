@@ -22,31 +22,33 @@
 
 		const scene = new THREE.Scene();
 
-		// new THREE.CubeTextureLoader()
-		// 	.setPath('cubeMaps/')
-		// 	.load(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png'], (texture) => {
-		// 		scene.environment = texture;
-		// 	});
+		new THREE.CubeTextureLoader()
+			.setPath('cubeMaps/')
+			.load(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png'], (texture) => {
+				scene.environment = texture;
+			});
 
 		const loader = new GLTFLoader();
 		loader.load('models/viensla_logo.glb', (gtlf) => {
 			logo = gtlf.scene;
 			logo.rotation.x = Math.PI / 2;
-			logo.position.y = 0;
+			logo.position.y = 1;
 			logo.scale.set(9, 9, 9);
 			const scale = window.innerWidth / 200;
 			logo.scale.set(scale, scale, scale);
 			logo.traverse((node) => {
 				if (node.isMesh) {
-					node.material = new THREE.MeshStandardMaterial({ roughness: 0.1, color: 0x5f45f2 });
+					node.material = new THREE.MeshStandardMaterial({
+						metalness: 0.5,
+						roughness: 0.1
+					});
 				}
 			});
 			scene.add(logo);
-
-			// gsap.to(logo.position, { y: 0, duration: 1, ease: 'bounce.out' });
+			gsap.to(logo.position, { y: 0, duration: 1, ease: 'bounce.out' });
 		});
 
-		scene.add(new THREE.AmbientLight(0xffffff, 4));
+		scene.add(new THREE.AmbientLight(0x5f45f2, 5));
 
 		const animate = () => {
 			requestAnimationFrame(animate);
