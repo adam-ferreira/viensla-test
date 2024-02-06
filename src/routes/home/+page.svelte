@@ -11,7 +11,7 @@
 	onMount(() => {
 		const aspect = container.clientWidth / container.clientHeight;
 		const camera = new THREE.OrthographicCamera(-aspect, aspect, 1, -1, 0.1, 1000);
-		camera.position.z = 10;
+		camera.position.z = 9;
 
 		const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 		renderer.setSize(container.clientWidth, container.clientHeight);
@@ -49,7 +49,27 @@
 			renderer.render(scene, camera);
 		};
 
+		const onWindowResize = () => {
+			const aspect = window.innerWidth / window.innerHeight;
+			camera.left = -aspect;
+			camera.right = aspect;
+			camera.top = 1;
+			camera.bottom = -1;
+			camera.updateProjectionMatrix();
+
+			renderer.setSize(window.innerWidth, window.innerHeight);
+
+			const scale = window.innerWidth / 1000;
+			gltf.scene.scale.set(scale, scale, scale);
+		};
+
+		window.addEventListener('resize', onWindowResize);
+
 		animate();
+
+		return () => {
+			window.removeEventListener('resize', onWindowResize);
+		};
 	});
 </script>
 
