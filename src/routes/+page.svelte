@@ -62,8 +62,10 @@
 			camera.bottom = -1;
 			camera.updateProjectionMatrix();
 			renderer.setSize(window.innerWidth, window.innerHeight);
-			const scale = window.innerWidth / 200;
-			logo.scale.set(scale, scale, scale);
+			if (logo) {
+				const scale = window.innerWidth / 200;
+				logo.scale.set(scale, scale, scale);
+			}
 		};
 
 		window.addEventListener('resize', onWindowResize);
