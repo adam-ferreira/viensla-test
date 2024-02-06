@@ -14,7 +14,9 @@
 		const camera = new THREE.OrthographicCamera(-aspect, aspect, 1, -1, 0.1, 1000);
 		camera.position.z = 9;
 
+		const pixelRatio = window.devicePixelRatio;
 		const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+		renderer.setPixelRatio(pixelRatio > 1 ? 0.5 : pixelRatio); // reduce resolution on high DPI devices
 		renderer.setSize(container.clientWidth, container.clientHeight);
 		container.appendChild(renderer.domElement);
 
