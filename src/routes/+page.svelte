@@ -22,11 +22,11 @@
 
 		const scene = new THREE.Scene();
 
-		new THREE.CubeTextureLoader()
-			.setPath('cubeMaps/')
-			.load(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png'], (texture) => {
-				scene.environment = texture;
-			});
+		// new THREE.CubeTextureLoader()
+		// 	.setPath('cubeMaps/')
+		// 	.load(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png'], (texture) => {
+		// 		scene.environment = texture;
+		// 	});
 
 		const loader = new GLTFLoader();
 		loader.load('models/viensla_logo.glb', (gtlf) => {
