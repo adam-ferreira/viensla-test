@@ -1,61 +1,47 @@
 <script>
-	import '../styles.css';
 	import { onMount } from 'svelte';
 	import * as THREE from 'three';
 	import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 	import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 	import { gsap } from 'gsap';
+	import '../styles.css';
 
 	let container;
 
 	onMount(() => {
-		const scene = new THREE.Scene();
-		const camera = new THREE.PerspectiveCamera(
-			75,
-			container.clientWidth / container.clientHeight,
-			0.1,
-			1000
-		);
-		const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-		const controls = new OrbitControls(camera, renderer.domElement);
+		const aspect = container.clientWidth / container.clientHeight;
+		const camera = new THREE.OrthographicCamera(-aspect, aspect, 1, -1, 0.1, 1000);
+		camera.position.z = 10;
 
+		const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 		renderer.setSize(container.clientWidth, container.clientHeight);
 		container.appendChild(renderer.domElement);
-		camera.position.z = 0.2;
 
-		let cubeTexture;
+		const controls = new OrbitControls(camera, renderer.domElement);
+
+		const scene = new THREE.Scene();
 		new THREE.CubeTextureLoader()
 			.setPath('cubeMaps/')
-			.load(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png'], function (texture) {
-				cubeTexture = texture;
+			.load(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png'], (texture) => {
 				scene.environment = texture;
 			});
 
-		let loader = new GLTFLoader();
-
+		const loader = new GLTFLoader();
 		loader.load('models/viensla_logo.glb', (gltf) => {
 			gltf.scene.rotation.x = Math.PI / 2;
-			gltf.scene.position.y = 2; // Start position off the top of the screen
+			gltf.scene.position.y = 1;
+			gltf.scene.scale.set(9, 9, 9);
 			gltf.scene.traverse((node) => {
 				if (node.isMesh) {
-					node.material = new THREE.MeshStandardMaterial({
-						roughness: 0.1,
-						color: 0x5f45f2
-					});
+					node.material = new THREE.MeshStandardMaterial({ roughness: 0.1, color: 0x5f45f2 });
 				}
 			});
 			scene.add(gltf.scene);
 
-			// Start the bounce animation after the model is loaded
-			gsap.to(gltf.scene.position, {
-				y: 0, // The end position
-				duration: 3, // The duration of the animation
-				ease: 'bounce.out' // Use the 'bounce' easing function
-			});
+			gsap.to(gltf.scene.position, { y: 0, duration: 1, ease: 'bounce.out' });
 		});
 
-		const ambientLight = new THREE.AmbientLight(0xffffff, 5); // soft white light
-		scene.add(ambientLight);
+		scene.add(new THREE.AmbientLight(0xffffff, 4));
 
 		const animate = () => {
 			requestAnimationFrame(animate);

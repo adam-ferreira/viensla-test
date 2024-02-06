@@ -5,8 +5,9 @@
     --color-theme-1: rgb(251, 239, 224);
     --color-theme-2: rgb(5, 10, 24);
     --color-theme-3: rgb(57, 53, 50);
-    --color-theme-4: rgb(95, 69, 242);
+    --purple: rgb(95, 69, 242);
     --wheat: 246, 220, 194;
+    --yellow: rgb(255, 227, 117);
     --gradient: linear-gradient(180deg, rgba(var(--wheat), 0) 50%, rgba(var(--wheat), 1) 100%);
     font-family: var(--font-body);
 }

@@ -59,7 +59,7 @@
 	}
 	.counter {
 		font-weight: 800;
-		color: var(--color-theme-4);
+		color: var(--purple);
 		font-size: 15em;
 		z-index: 1;
 		line-height: 0.8;
