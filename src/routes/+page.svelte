@@ -14,9 +14,7 @@
 		const camera = new THREE.OrthographicCamera(-aspect, aspect, 1, -1, 0.1, 1000);
 		camera.position.z = 9;
 
-		const pixelRatio = window.devicePixelRatio;
 		const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-		renderer.setPixelRatio(pixelRatio > 1 ? 0.5 : pixelRatio); // reduce resolution on high DPI devices
 		renderer.setSize(container.clientWidth, container.clientHeight);
 		container.appendChild(renderer.domElement);
 
@@ -37,11 +35,11 @@
 			logo.scale.set(9, 9, 9);
 			const scale = window.innerWidth / 200;
 			logo.scale.set(scale, scale, scale);
-			logo.traverse((node) => {
-				if (node.isMesh) {
-					node.material = new THREE.MeshStandardMaterial({ roughness: 0.1, color: 0x5f45f2 });
-				}
-			});
+			// logo.traverse((node) => {
+			// 	if (node.isMesh) {
+			// 		node.material = new THREE.MeshStandardMaterial({ roughness: 0.1, color: 0x5f45f2 });
+			// 	}
+			// });
 			scene.add(logo);
 
 			gsap.to(logo.position, { y: 0, duration: 1, ease: 'bounce.out' });
