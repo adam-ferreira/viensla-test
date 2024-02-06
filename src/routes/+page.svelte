@@ -1,52 +1,79 @@
 <script>
-	import './styles.css';
 	import { onMount } from 'svelte';
-	import gsap from 'gsap';
-	import { goto } from '$app/navigation';
+	import * as THREE from 'three';
+	import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+	import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+	import { gsap } from 'gsap';
+	import './styles.css';
 
-	let count = { value: 0 };
-	let digits = '';
+	let container;
 
 	onMount(() => {
-		gsap.to(count, {
-			duration: 4,
-			value: 100,
-			round: 1,
-			onUpdate: () => {
-				count.value = Math.round(count.value);
-				digits = count.value.toString() + '%';
-			},
-			onComplete: () => {
-				gsap
-					.timeline()
-					.to('.counter', {
-						scaleY: 0.8, // compress
-						duration: 0.2,
-						ease: 'power1.inOut',
-						transformOrigin: 'bottom' // add this line
-					})
-					.to('.counter', {
-						scaleY: 1, // return to normal scale
-						duration: 0.2,
-						ease: 'power1.inOut',
-						transformOrigin: 'bottom'
-					})
-					.to('.counter', {
-						y: '-500%', // jump
-						duration: 0.5,
-						ease: 'power1.inOut'
-					})
-					.eventCallback('onComplete', () => goto('/home')); // navigate to home page
-			}
+		const aspect = container.clientWidth / container.clientHeight;
+		const camera = new THREE.OrthographicCamera(-aspect, aspect, 1, -1, 0.1, 1000);
+		camera.position.z = 9;
+
+		const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+		renderer.setSize(container.clientWidth, container.clientHeight);
+		container.appendChild(renderer.domElement);
+
+		const controls = new OrbitControls(camera, renderer.domElement);
+
+		const scene = new THREE.Scene();
+		new THREE.CubeTextureLoader()
+			.setPath('cubeMaps/')
+			.load(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png'], (texture) => {
+				scene.environment = texture;
+			});
+
+		const loader = new GLTFLoader();
+		loader.load('models/viensla_logo.glb', (gltf) => {
+			gltf.scene.rotation.x = Math.PI / 2;
+			gltf.scene.position.y = 1;
+			gltf.scene.scale.set(9, 9, 9);
+			gltf.scene.traverse((node) => {
+				if (node.isMesh) {
+					node.material = new THREE.MeshStandardMaterial({ roughness: 0.1, color: 0x5f45f2 });
+				}
+			});
+			scene.add(gltf.scene);
+
+			gsap.to(gltf.scene.position, { y: 0, duration: 1, ease: 'bounce.out' });
 		});
+
+		scene.add(new THREE.AmbientLight(0xffffff, 4));
+
+		const animate = () => {
+			requestAnimationFrame(animate);
+			controls.update();
+			renderer.render(scene, camera);
+		};
+
+		const onWindowResize = () => {
+			const aspect = window.innerWidth / window.innerHeight;
+			camera.left = -aspect;
+			camera.right = aspect;
+			camera.top = 1;
+			camera.bottom = -1;
+			camera.updateProjectionMatrix();
+
+			renderer.setSize(window.innerWidth, window.innerHeight);
+
+			const scale = window.innerWidth / 1000;
+			gltf.scene.scale.set(scale, scale, scale);
+		};
+
+		window.addEventListener('resize', onWindowResize);
+
+		animate();
+
+		return () => {
+			window.removeEventListener('resize', onWindowResize);
+		};
 	});
 </script>
 
-<div class="container">
-	<p class="counter">
-		{digits}
-	</p>
-</div>
+<div class="container" bind:this={container}></div>
 
 <style>
 	.container {
@@ -56,12 +83,5 @@
 		width: 100%;
 		height: 100vh;
 		background: var(--gradient);
-	}
-	.counter {
-		font-weight: 800;
-		color: var(--purple);
-		font-size: 15em;
-		z-index: 1;
-		line-height: 0.8;
 	}
 </style>
