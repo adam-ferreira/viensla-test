@@ -21,6 +21,7 @@
 		const controls = new OrbitControls(camera, renderer.domElement);
 
 		const scene = new THREE.Scene();
+
 		new THREE.CubeTextureLoader()
 			.setPath('cubeMaps/')
 			.load(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png'], (texture) => {
@@ -35,11 +36,11 @@
 			logo.scale.set(9, 9, 9);
 			const scale = window.innerWidth / 200;
 			logo.scale.set(scale, scale, scale);
-			// logo.traverse((node) => {
-			// 	if (node.isMesh) {
-			// 		node.material = new THREE.MeshStandardMaterial({ roughness: 0.1, color: 0x5f45f2 });
-			// 	}
-			// });
+			logo.traverse((node) => {
+				if (node.isMesh) {
+					node.material = new THREE.MeshStandardMaterial({ roughness: 0.1, color: 0x5f45f2 });
+				}
+			});
 			scene.add(logo);
 
 			gsap.to(logo.position, { y: 0, duration: 1, ease: 'bounce.out' });
@@ -60,9 +61,7 @@
 			camera.top = 1;
 			camera.bottom = -1;
 			camera.updateProjectionMatrix();
-
 			renderer.setSize(window.innerWidth, window.innerHeight);
-
 			const scale = window.innerWidth / 200;
 			logo.scale.set(scale, scale, scale);
 		};
