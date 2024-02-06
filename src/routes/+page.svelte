@@ -32,7 +32,7 @@
 		loader.load('models/viensla_logo.glb', (gtlf) => {
 			logo = gtlf.scene;
 			logo.rotation.x = Math.PI / 2;
-			logo.position.y = 1;
+			logo.position.y = 0;
 			logo.scale.set(9, 9, 9);
 			const scale = window.innerWidth / 200;
 			logo.scale.set(scale, scale, scale);
@@ -43,7 +43,7 @@
 			});
 			scene.add(logo);
 
-			gsap.to(logo.position, { y: 0, duration: 1, ease: 'bounce.out' });
+			// gsap.to(logo.position, { y: 0, duration: 1, ease: 'bounce.out' });
 		});
 
 		scene.add(new THREE.AmbientLight(0xffffff, 4));
