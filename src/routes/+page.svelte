@@ -34,17 +34,7 @@
 			logo.rotation.x = Math.PI / 2;
 			logo.position.y = 1;
 			const scale = window.innerWidth / 160;
-			console.log(scale);
 			logo.scale.set(scale, scale, scale);
-			logo.traverse((node) => {
-				if (node.isMesh) {
-					node.material = new THREE.MeshStandardMaterial({
-						color: 0x5f45f2,
-						metalness: 0.5,
-						roughness: 0.1
-					});
-				}
-			});
 			scene.add(logo);
 			gsap.to(logo.position, { y: 0, duration: 1, ease: 'bounce.out' });
 		});
