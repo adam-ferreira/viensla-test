@@ -45,8 +45,6 @@
 			gsap.to(logo.position, { y: 0, duration: 1, ease: 'bounce.out' });
 		});
 
-		scene.add(new THREE.AmbientLight(0xffffff, 6));
-
 		const animate = () => {
 			requestAnimationFrame(animate);
 			if (logo) {
