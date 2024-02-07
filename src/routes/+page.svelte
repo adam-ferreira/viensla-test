@@ -12,7 +12,7 @@
 	onMount(() => {
 		const aspect = container.clientWidth / container.clientHeight;
 		const camera = new THREE.OrthographicCamera(-aspect, aspect, 1, -1, 0.1, 1000);
-		camera.position.z = 9;
+		camera.position.z = 2;
 
 		const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 		renderer.setSize(container.clientWidth, container.clientHeight);
@@ -33,12 +33,13 @@
 			logo = gtlf.scene;
 			logo.rotation.x = Math.PI / 2;
 			logo.position.y = 1;
-			logo.scale.set(9, 9, 9);
-			const scale = window.innerWidth / 200;
+			const scale = window.innerWidth / 160;
+			console.log(scale);
 			logo.scale.set(scale, scale, scale);
 			logo.traverse((node) => {
 				if (node.isMesh) {
 					node.material = new THREE.MeshStandardMaterial({
+						color: 0x5f45f2,
 						metalness: 0.5,
 						roughness: 0.1
 					});
@@ -48,7 +49,7 @@
 			gsap.to(logo.position, { y: 0, duration: 1, ease: 'bounce.out' });
 		});
 
-		scene.add(new THREE.AmbientLight(0x5f45f2, 5));
+		scene.add(new THREE.AmbientLight(0xffffff, 6));
 
 		const animate = () => {
 			requestAnimationFrame(animate);
@@ -65,7 +66,7 @@
 			camera.updateProjectionMatrix();
 			renderer.setSize(window.innerWidth, window.innerHeight);
 			if (logo) {
-				const scale = window.innerWidth / 200;
+				const scale = window.innerWidth / 160;
 				logo.scale.set(scale, scale, scale);
 			}
 		};
