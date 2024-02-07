@@ -8,15 +8,25 @@
 
 	let container;
 	let logo;
+	let mouseX = 0,
+		mouseY = 0;
+	let windowHalfX, windowHalfY;
+	let targetRotationX = 0,
+		targetRotationY = 0;
+	let rotationDamping = 0.05;
+	let mouseSensitivity = 0.0009; // New variable
 
 	onMount(() => {
+		if (typeof window !== 'undefined') {
+			windowHalfX = window.innerWidth / 2;
+			windowHalfY = window.innerHeight / 2;
+		}
 		const aspect = container.clientWidth / container.clientHeight;
 		const camera = new THREE.OrthographicCamera(-aspect, aspect, 1, -1, 0.1, 1000);
 		camera.position.z = 2;
 		const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 		renderer.setSize(container.clientWidth, container.clientHeight);
 		container.appendChild(renderer.domElement);
-		const controls = new OrbitControls(camera, renderer.domElement);
 		const scene = new THREE.Scene();
 
 		new THREE.CubeTextureLoader()
@@ -28,9 +38,8 @@
 		const loader = new GLTFLoader();
 		loader.load('models/viensla_logo.glb', (gtlf) => {
 			logo = gtlf.scene;
-			logo.rotation.x = Math.PI / 2;
 			logo.position.y = 1;
-			const scale = window.innerWidth / 160;
+			const scale = window.innerWidth / 300;
 			logo.scale.set(scale, scale, scale);
 			scene.add(logo);
 			gsap.to(logo.position, { y: 0, duration: 1, ease: 'bounce.out' });
@@ -40,7 +49,12 @@
 
 		const animate = () => {
 			requestAnimationFrame(animate);
-			controls.update();
+			if (logo) {
+				targetRotationX += (mouseY * mouseSensitivity - targetRotationX) * rotationDamping;
+				targetRotationY += (mouseX * mouseSensitivity - targetRotationY) * rotationDamping;
+				logo.rotation.x = targetRotationX;
+				logo.rotation.y = targetRotationY;
+			}
 			renderer.render(scene, camera);
 		};
 
@@ -53,19 +67,27 @@
 			camera.updateProjectionMatrix();
 			renderer.setSize(window.innerWidth, window.innerHeight);
 			if (logo) {
-				const scale = window.innerWidth / 160;
+				const scale = window.innerWidth / 300;
 				logo.scale.set(scale, scale, scale);
 			}
 		};
-
+		window.addEventListener('mousemove', onDocumentMouseMove);
 		window.addEventListener('resize', onWindowResize);
 
 		animate();
 
 		return () => {
+			window.removeEventListener('mousemove', onDocumentMouseMove);
 			window.removeEventListener('resize', onWindowResize);
 		};
 	});
+
+	function onDocumentMouseMove(event) {
+		if (typeof window !== 'undefined') {
+			mouseX = (event.clientX - windowHalfX) / 2;
+			mouseY = (event.clientY - windowHalfY) / 2;
+		}
+	}
 </script>
 
 <div class="container" bind:this={container}></div>
