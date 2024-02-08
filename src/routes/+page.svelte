@@ -1,10 +1,11 @@
 <script>
 	import { onMount } from 'svelte';
+	import { writable } from 'svelte/store';
 	import * as THREE from 'three';
-	import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 	import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 	import { gsap } from 'gsap';
 	import './styles.css';
+	import Preloader from './Preloader.svelte';
 
 	let container;
 	let logo;
@@ -33,14 +34,13 @@
 			.setPath('cubeMaps/')
 			.load(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png'], (texture) => {
 				scene.environment = texture;
-				scene.background = texture;
 			});
 
 		const loader = new GLTFLoader();
 		loader.load('models/viensla_logo.glb', (gtlf) => {
 			logo = gtlf.scene;
 			logo.position.y = 1;
-			const scale = window.innerWidth / 300;
+			const scale = window.innerWidth / 400;
 			logo.scale.set(scale, scale, scale);
 			scene.add(logo);
 			gsap.to(logo.position, { y: 0, duration: 1, ease: 'bounce.out' });
@@ -69,7 +69,7 @@
 			camera.updateProjectionMatrix();
 			renderer.setSize(window.innerWidth, window.innerHeight);
 			if (logo) {
-				const scale = window.innerWidth / 300;
+				const scale = window.innerWidth / 400;
 				logo.scale.set(scale, scale, scale);
 			}
 		};
@@ -92,6 +92,7 @@
 	}
 </script>
 
+<Preloader />
 <div class="container" bind:this={container}></div>
 
 <style>
