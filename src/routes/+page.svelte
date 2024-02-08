@@ -33,6 +33,7 @@
 			.setPath('cubeMaps/')
 			.load(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png'], (texture) => {
 				scene.environment = texture;
+				scene.background = texture;
 			});
 
 		const loader = new GLTFLoader();
@@ -44,6 +45,9 @@
 			scene.add(logo);
 			gsap.to(logo.position, { y: 0, duration: 1, ease: 'bounce.out' });
 		});
+
+		const ambientLight = new THREE.AmbientLight(0xffffff, 3);
+		scene.add(ambientLight);
 
 		const animate = () => {
 			requestAnimationFrame(animate);
