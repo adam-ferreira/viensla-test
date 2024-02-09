@@ -5,11 +5,7 @@
 	onMount(() => {
 		gsap.fromTo('.preloader-text', { scale: 5 }, { scale: 1, duration: 1 });
 		gsap.fromTo('.preloader-text', { opacity: 0 }, { opacity: 1, duration: 1, delay: 0.5 });
-		gsap.fromTo(
-			'.preloader',
-			{ y: '0%' },
-			{ y: '120%', duration: 0.5, delay: 2, ease: 'power1.inOut' }
-		);
+		gsap.fromTo('.preloader', { y: '0%' }, { y: '120%', duration: 0.8, delay: 2, ease: 'expo.in' });
 	});
 </script>
 
@@ -17,7 +13,6 @@
 	<div class="preloader-background"></div>
 	<div class="preloader-text">
 		<span>Ç</span><span>A</span>
-		<span>&nbsp;</span>
 		<span>C</span><span>H</span><span>A</span><span>R</span><span>G</span><span>E</span>
 	</div>
 </div>
@@ -26,7 +21,7 @@
 	@keyframes bigger {
 		0% {
 			font-variation-settings:
-				'wght' 100,
+				'wght' 700,
 				'wdth' 70;
 		}
 		50% {
@@ -36,7 +31,7 @@
 		}
 		100% {
 			font-variation-settings:
-				'wght' 100,
+				'wght' 700,
 				'wdth' 70;
 		}
 	}
@@ -46,6 +41,7 @@
 		animation-duration: 2s;
 		animation-timing-function: ease;
 		font-variation-settings: 'wdth' 70;
+		letter-spacing: -0.02em;
 	}
 
 	.preloader-text span:nth-child(2) {
@@ -95,6 +91,7 @@
 		align-items: center;
 		background-color: var(--yellow);
 		color: var(--purple);
-		font-size: 15em;
+		font-size: 20em;
+		font-weight: 900;
 	}
 </style>

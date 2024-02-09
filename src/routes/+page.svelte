@@ -1,6 +1,5 @@
 <script>
 	import { onMount } from 'svelte';
-	import { writable } from 'svelte/store';
 	import * as THREE from 'three';
 	import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 	import { gsap } from 'gsap';
@@ -15,7 +14,7 @@
 	let targetRotationX = 0,
 		targetRotationY = 0;
 	let rotationDamping = 0.05;
-	let mouseSensitivity = 0.0009; // New variable
+	let mouseSensitivity = 0.0009;
 
 	onMount(() => {
 		if (typeof window !== 'undefined') {
