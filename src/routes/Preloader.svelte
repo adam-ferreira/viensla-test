@@ -1,11 +1,34 @@
 <script>
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
+	import { preloaderFinished } from './store.js';
 
 	onMount(() => {
 		gsap.fromTo('.preloader-text', { scale: 5 }, { scale: 1, duration: 1 });
-		gsap.fromTo('.preloader-text', { opacity: 0 }, { opacity: 1, duration: 1, delay: 0.5 });
-		gsap.fromTo('.preloader', { y: '0%' }, { y: '120%', duration: 0.8, delay: 2, ease: 'expo.in' });
+		gsap.fromTo(
+			'.preloader-text',
+			{ opacity: 0 },
+			{
+				opacity: 1,
+				duration: 1,
+				delay: 0.5,
+				onComplete: () => {
+					setTimeout(() => {
+						preloaderFinished.set(true);
+					}, 900);
+				}
+			}
+		);
+		gsap.fromTo(
+			'.preloader',
+			{ y: '0%' },
+			{
+				y: '120%',
+				duration: 0.8,
+				delay: 2,
+				ease: 'expo.in'
+			}
+		);
 	});
 </script>
 

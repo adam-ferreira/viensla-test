@@ -5,6 +5,7 @@
 	import { gsap } from 'gsap';
 	import './styles.css';
 	import Preloader from './Preloader.svelte';
+	import { preloaderFinished } from './store.js';
 
 	let container;
 	let logo;
@@ -38,11 +39,15 @@
 		const loader = new GLTFLoader();
 		loader.load('models/viensla_logo.glb', (gtlf) => {
 			logo = gtlf.scene;
-			logo.position.y = 1;
+			logo.position.y = 1.5;
 			const scale = window.innerWidth / 400;
 			logo.scale.set(scale, scale, scale);
 			scene.add(logo);
-			gsap.to(logo.position, { y: 0, duration: 1, ease: 'bounce.out' });
+			preloaderFinished.subscribe((value) => {
+				if (value) {
+					gsap.to(logo.position, { y: 0, duration: 1, ease: 'bounce.out' });
+				}
+			});
 		});
 
 		const ambientLight = new THREE.AmbientLight(0xffffff, 3);
