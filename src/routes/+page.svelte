@@ -39,7 +39,7 @@
 		const loader = new GLTFLoader();
 		loader.load('models/viensla_logo.glb', (gtlf) => {
 			logo = gtlf.scene;
-			logo.position.y = 1.5;
+			logo.position.y = 1.3;
 			const scale = window.innerWidth / 400;
 			logo.scale.set(scale, scale, scale);
 			scene.add(logo);
@@ -50,7 +50,7 @@
 			});
 		});
 
-		const ambientLight = new THREE.AmbientLight(0xffffff, 3);
+		const ambientLight = new THREE.AmbientLight(0xffffff, 5);
 		scene.add(ambientLight);
 
 		const animate = () => {

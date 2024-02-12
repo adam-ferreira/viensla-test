@@ -4,7 +4,7 @@
 	import { preloaderFinished } from './store.js';
 
 	onMount(() => {
-		gsap.fromTo('.preloader-text', { scale: 5 }, { scale: 1, duration: 1 });
+		gsap.fromTo('.preloader-text', { scale: 6 }, { scale: 1, duration: 1 });
 		gsap.fromTo(
 			'.preloader-text',
 			{ opacity: 0 },
@@ -21,10 +21,12 @@
 		);
 		gsap.fromTo(
 			'.preloader',
-			{ y: '0%' },
+			{ y: '0%', rotation: 0, scale: 1 }, // Add rotation and scale here
 			{
-				y: '120%',
-				duration: 0.8,
+				y: '125%',
+				rotation: 10, // Reset rotation to 0
+				scale: 0.8, // Reset scale to 1
+				duration: 0.6,
 				delay: 2,
 				ease: 'expo.in'
 			}
@@ -33,7 +35,6 @@
 </script>
 
 <div class="preloader">
-	<div class="preloader-background"></div>
 	<div class="preloader-text">
 		<span>Ç</span><span>A</span>
 		<span>C</span><span>H</span><span>A</span><span>R</span><span>G</span><span>E</span>
@@ -44,7 +45,7 @@
 	@keyframes bigger {
 		0% {
 			font-variation-settings:
-				'wght' 700,
+				'wght' 600,
 				'wdth' 70;
 		}
 		50% {
@@ -54,7 +55,7 @@
 		}
 		100% {
 			font-variation-settings:
-				'wght' 700,
+				'wght' 600,
 				'wdth' 70;
 		}
 	}
@@ -66,7 +67,6 @@
 		font-variation-settings: 'wdth' 70;
 		letter-spacing: -0.02em;
 	}
-
 	.preloader-text span:nth-child(2) {
 		animation-delay: 0.1s;
 	}
@@ -92,17 +92,6 @@
 		animation-delay: 0.8s;
 	}
 
-	.preloader-background {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background-color: var(--yellow);
-		transform: rotate(10deg);
-		z-index: -1;
-	}
-
 	.preloader {
 		position: fixed;
 		top: 0;
@@ -116,5 +105,6 @@
 		color: var(--purple);
 		font-size: 20em;
 		font-weight: 900;
+		border-radius: 20px;
 	}
 </style>
