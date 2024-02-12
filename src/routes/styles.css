@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Humane';
-    src: url('font/Humane.ttf') format('truetype');
+    src: url('/font/Humane.ttf') format('truetype');
     font-weight: 600 900;
     font-style: normal;
 }
