@@ -39,7 +39,7 @@
 		const loader = new GLTFLoader();
 		loader.load('models/viensla_logo.glb', (gtlf) => {
 			logo = gtlf.scene;
-			logo.position.y = 1.3;
+			logo.position.y = 1.5;
 			const scale = window.innerWidth / 400;
 			logo.scale.set(scale, scale, scale);
 			scene.add(logo);

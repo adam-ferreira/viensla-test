@@ -4,18 +4,19 @@
 	import { preloaderFinished } from './store.js';
 
 	onMount(() => {
-		gsap.fromTo('.preloader-text', { scale: 6 }, { scale: 1, duration: 1 });
+		gsap.fromTo('.preloader-text', { scale: 5 }, { scale: 1, duration: 1, ease: 'power1.inOut' });
 		gsap.fromTo(
 			'.preloader-text',
 			{ opacity: 0 },
 			{
 				opacity: 1,
-				duration: 1,
-				delay: 0.5,
+				duration: 1.5,
+				delay: 0.4,
+				ease: 'power1.inOut',
 				onComplete: () => {
 					setTimeout(() => {
 						preloaderFinished.set(true);
-					}, 900);
+					}, 800);
 				}
 			}
 		);
@@ -26,7 +27,7 @@
 				y: '125%',
 				rotation: 10, // Reset rotation to 0
 				scale: 0.8, // Reset scale to 1
-				duration: 0.6,
+				duration: 1,
 				delay: 2,
 				ease: 'expo.in'
 			}
@@ -44,28 +45,18 @@
 <style>
 	@keyframes bigger {
 		0% {
-			font-variation-settings:
-				'wght' 600,
-				'wdth' 70;
+			font-variation-settings: 'wght' 700;
 		}
 		50% {
-			font-variation-settings:
-				'wght' 900,
-				'wdth' 70;
+			font-variation-settings: 'wght' 900;
 		}
 		100% {
-			font-variation-settings:
-				'wght' 600,
-				'wdth' 70;
+			font-variation-settings: 'wght' 700;
 		}
 	}
 
 	.preloader-text span {
-		animation: bigger infinite;
-		animation-duration: 2s;
-		animation-timing-function: ease;
-		font-variation-settings: 'wdth' 70;
-		letter-spacing: -0.02em;
+		animation: bigger 1.5s infinite ease;
 	}
 	.preloader-text span:nth-child(2) {
 		animation-delay: 0.1s;
@@ -103,8 +94,7 @@
 		align-items: center;
 		background-color: var(--yellow);
 		color: var(--purple);
-		font-size: 20em;
-		font-weight: 900;
+		font-size: 40em;
 		border-radius: 20px;
 	}
 </style>
