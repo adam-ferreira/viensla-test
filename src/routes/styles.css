@@ -28,4 +28,5 @@ body {
     justify-content: center;
     align-items: center;
     background-color: var(--color-theme-1);
+    font-size: 2vw;
 }

@@ -94,7 +94,7 @@
 		align-items: center;
 		background-color: var(--yellow);
 		color: var(--purple);
-		font-size: 40em;
+		font-size: 20em;
 		border-radius: 20px;
 	}
 </style>
