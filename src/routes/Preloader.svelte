@@ -98,4 +98,10 @@
 		font-size: 20em;
 		border-radius: 20px;
 	}
+
+	@media only screen and (max-width: 600px) {
+		.preloader {
+			overflow: hidden;
+		}
+	}
 </style>
