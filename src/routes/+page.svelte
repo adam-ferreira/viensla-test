@@ -6,6 +6,7 @@
 	import './styles.css';
 	import Preloader from './Preloader.svelte';
 	import { preloaderFinished } from './store.js';
+	import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 	let container;
 	let logo;
@@ -16,6 +17,7 @@
 		targetRotationY = 0;
 	let rotationDamping = 0.05;
 	let mouseSensitivity = 0.0009;
+	let controls;
 
 	onMount(() => {
 		if (typeof window !== 'undefined') {
@@ -29,6 +31,13 @@
 		renderer.setSize(container.clientWidth, container.clientHeight);
 		container.appendChild(renderer.domElement);
 		const scene = new THREE.Scene();
+
+		if (/Mobi|Android/i.test(window.navigator.userAgent)) {
+			controls = new OrbitControls(camera, renderer.domElement);
+			controls.enableDamping = true;
+			controls.dampingFactor = 0.25;
+			controls.enableZoom = true;
+		}
 
 		new THREE.CubeTextureLoader()
 			.setPath('cubeMaps/')
@@ -61,6 +70,7 @@
 				logo.rotation.x = targetRotationX;
 				logo.rotation.y = targetRotationY;
 			}
+			if (controls) controls.update();
 			renderer.render(scene, camera);
 		};
 
@@ -107,5 +117,10 @@
 		width: 100%;
 		height: 100vh;
 		background: var(--gradient);
+	}
+	@media only screen and (max-width: 600px) {
+		.container {
+			overflow: hidden;
+		}
 	}
 </style>
