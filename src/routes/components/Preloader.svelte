@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
-	import { preloaderFinished } from './store.js';
+	import { preloaderFinished } from '../utils/store.js';
 
 	onMount(() => {
 		gsap.fromTo('.preloader-text', { scale: 5 }, { scale: 1, duration: 1, ease: 'power1.inOut' });
@@ -22,11 +22,11 @@
 		);
 		gsap.fromTo(
 			'.preloader',
-			{ y: '0%', rotation: 0, scale: 1 }, // Add rotation and scale here
+			{ y: '0%', rotation: 0, scale: 1 },
 			{
 				y: '125%',
-				rotation: 10, // Reset rotation to 0
-				scale: 0.8, // Reset scale to 1
+				rotation: 10,
+				scale: 0.8,
 				duration: 1,
 				delay: 2,
 				ease: 'expo.in'
