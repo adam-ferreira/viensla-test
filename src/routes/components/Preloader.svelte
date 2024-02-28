@@ -97,6 +97,7 @@
 		color: var(--purple);
 		font-size: 20em;
 		border-radius: 20px;
+		z-index: 2;
 	}
 
 	@media only screen and (max-width: 600px) {

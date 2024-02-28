@@ -6,12 +6,14 @@
 	import { gsap } from 'gsap';
 	import './styles.css';
 	import Preloader from './components/Preloader.svelte';
+	import Controls from './components/Controls.svelte';
 	import { preloaderFinished } from './utils/store.js';
 	import {
 		CAMERA_CONFIG,
 		MOUSE_SENSITIVITY,
 		DAMPING_FACTOR,
 		ROTATION_DAMPING,
+		SCALE_FACTOR,
 		LOGO_DROP_DURATION,
 		LOGO_DROP_EASE
 	} from './modules/constants.js';
@@ -63,8 +65,7 @@
 		loader.load('models/viensla_logo.glb', (gtlf) => {
 			logo = gtlf.scene;
 			logo.position.y = 1.5;
-			// Scale the logo based on the window width
-			const scale = window.innerWidth / 400;
+			const scale = window.innerWidth / SCALE_FACTOR;
 			logo.scale.set(scale, scale, scale);
 			scene.add(logo);
 			animateLogoDrop();
@@ -121,6 +122,18 @@
 		mouseY = (event.clientY - window.innerHeight / 2) / 2;
 	};
 
+	const changeMaterialProperties = (event) => {
+		const { color, roughness, metalness } = event.detail;
+		let colorObject = new THREE.Color(color);
+		logo.traverse((child) => {
+			if (child.isMesh) {
+				child.material.color = colorObject;
+				child.material.roughness = roughness;
+				child.material.metalness = metalness;
+			}
+		});
+	};
+
 	onMount(() => {
 		const { camera, renderer, scene } = setupEnvironment();
 
@@ -145,6 +158,8 @@
 <!-- ÇA CHARGE -->
 <Preloader />
 
+<Controls on:change={changeMaterialProperties} />
+
 <div class="container" bind:this={container}></div>
 
 <style>
@@ -156,6 +171,7 @@
 		height: 100vh;
 		background: var(--gradient);
 	}
+
 	@media only screen and (max-width: 600px) {
 		.container {
 			overflow: hidden;
