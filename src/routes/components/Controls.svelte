@@ -89,6 +89,7 @@
 		.controls {
 			width: 80%;
 			transform: translateY(-10%);
+			overflow: hidden;
 		}
 	}
 </style>
