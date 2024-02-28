@@ -88,6 +88,7 @@
 	@media only screen and (max-width: 600px) {
 		.controls {
 			width: 80%;
+			transform: translateY(-10%);
 		}
 	}
 </style>
