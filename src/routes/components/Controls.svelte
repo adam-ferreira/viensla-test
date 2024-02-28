@@ -49,8 +49,8 @@
 		flex-direction: row;
 		justify-content: space-between;
 		width: 45%;
-		top: 85%;
-		left: 5%;
+		bottom: 0;
+		transform: translateY(-100%);
 		background: rgba(251, 239, 225, 0.45);
 		backdrop-filter: blur(20px);
 		padding: 20px;
@@ -65,7 +65,7 @@
 	}
 
 	label {
-		font-size: 30px;
+		font-size: 35px;
 		letter-spacing: 1px;
 		color: var(--purple);
 		font-weight: 400;
@@ -85,12 +85,9 @@
 	input[type='range'] {
 		width: 80%;
 	}
-
-	@media (max-width: 600px) {
+	@media only screen and (max-width: 600px) {
 		.controls {
-			width: 90%;
-			top: 70%;
-			padding: 30px;
+			width: 80%;
 		}
 	}
 </style>
